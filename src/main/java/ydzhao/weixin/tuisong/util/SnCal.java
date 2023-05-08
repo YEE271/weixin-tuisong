@@ -19,7 +19,7 @@ import java.util.Map.Entry;
  */
 public class SnCal {
 
-    private static String ak = "tvL7Dq4j9nrs5QmdWcpZNACflCmRcW7L";
+    private static String ak = "9osvTo1GfViUgEzrBiGiDSn3sxBmsb8b";
     private static String sk = "M9rTmPtm20PhmWtRm2c29uoy43YMI215";
 
     public static void main(String[] args) {

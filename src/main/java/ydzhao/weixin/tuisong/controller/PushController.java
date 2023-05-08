@@ -12,30 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ydzhao.weixin.tuisong.util.Pusher;
 
+import static ydzhao.weixin.tuisong.common.ValCommons.*;
+
 @RestController
 public class PushController {
-    //要推送的用户openid
-    private static String mxp = "odbd-6b1RhzrGEPCRT4rmmLKwpas";
-    private static String zyd = "odbd-6U6ygdSTCwldsJ6qs0kxXeA";
-
-
-    /**
-     * 微信测试账号推送
-     *
-     */
-    @GetMapping("/push")
-    public void push() {
-        Pusher.push(mxp);
-    }
 
     /**
      * 微信测试账号推送
      * */
-    @GetMapping("/push/zyd")
-    public void pushZyd() {
-        Pusher.push(zyd);
-    }
+    @GetMapping("/push/bxl")
+    public void pushBxl() throws Exception {
 
+        Pusher.push(bxl,bxlTemplate);
+    }
+    /**
+     * 微信测试账号推送
+     * */
+    @GetMapping("/push/slt")
+    public void pushSlt() throws Exception {
+
+        Pusher.push(slt,sltTemplate);
+    }
 
     /**
      * 微信测试账号推送

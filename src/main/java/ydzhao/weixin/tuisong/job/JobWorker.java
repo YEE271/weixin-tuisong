@@ -4,6 +4,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ydzhao.weixin.tuisong.util.Pusher;
 
+import static ydzhao.weixin.tuisong.common.ValCommons.*;
+
 /**
  *@ClassName JobWorker
  *@Description TODO
@@ -12,12 +14,13 @@ import ydzhao.weixin.tuisong.util.Pusher;
  */
 @Component
 public class JobWorker {
-    //要推送的用户openid
-    private static String openId = "odbd-6b1RhzrGEPCRT4rmmLKwpas";
 
-    @Scheduled(cron = "0 30 7 * * ?")
-    public void goodMorning(){
-        Pusher.push(openId);
+//每隔五秒运行一次，测试使用。
+//    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "0 40 6 * * ?")
+    public void goodMorning() throws Exception {
+        Pusher.push(bxl,bxlTemplate);
+        Pusher.push(slt,sltTemplate);
     }
 
 }

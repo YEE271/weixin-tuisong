@@ -13,19 +13,12 @@ public class JiNianRi {
     /**
      * 恋爱
      */
-    static String lianAi = "2018-05-21";
-    /**
-     * 领证
-     */
-    static String linZheng = "2022-03-19";
-    /**
-     * 结婚
-     */
-    static String jieHun = "2022-07-08";
+    static String lianAi = "2022-05-21";
+
     /**
      * 生日
      */
-    static String shengRi = "2023-03-02";
+    static String shengRi = "2022-12-14";
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -37,14 +30,13 @@ public class JiNianRi {
     public static int before(String date) {
         int day = 0;
         try {
-            long time = simpleDateFormat.parse(date).getTime() - System.currentTimeMillis();
+            long time =System.currentTimeMillis() - simpleDateFormat.parse(date).getTime() ;
             day = (int) (time / 86400000L);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return day;
     }
-
 
     /**
      * 已经过去date多少天
@@ -54,7 +46,7 @@ public class JiNianRi {
     public static int after(String date) {
         int day = 0;
         try {
-            long time = System.currentTimeMillis() - simpleDateFormat.parse(date).getTime();
+            long time = simpleDateFormat.parse(date).getTime()-System.currentTimeMillis()  ;
             day = (int) (time / 86400000L);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -62,13 +54,13 @@ public class JiNianRi {
         return day;
     }
 
-    public static int getJieHun() {
-        return before(jieHun);
-    }
-
-    public static int getLinZhen() {
-        return before(linZheng);
-    }
+//    public static int getJieHun() {
+//        return before(jieHun);
+//    }
+//
+//    public static int getLinZhen() {
+//        return before(linZheng);
+//    }
 
     public static int getLianAi() {
         return before(lianAi);
@@ -78,8 +70,17 @@ public class JiNianRi {
         return after(shengRi);
     }
 
-    public static void main(String[] args) {
-        System.out.println(getJieHun());
+    public static int getNongLiShengRi() throws Exception {
+//        return after(CalendarUtil.lunarToSolar("1998-11-08", false));
+        return after(CalendarUtil.lunarToSolar("1998-11-21", false));
+    }
+
+    public static void main(String[] args) throws Exception {
+
+//        System.out.println(after(CalendarUtil.lunarToSolar("1998-11-21", false)));
+//        System.out.println(getNongLiShengRi());
+        System.out.println(CalendarUtil.lunarToSolar("1998-11-21", false));
+
     }
 
 

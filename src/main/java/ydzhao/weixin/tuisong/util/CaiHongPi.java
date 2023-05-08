@@ -18,18 +18,36 @@ import java.util.Random;
  * @Date 2022/8/2 17:26
  */
 public class CaiHongPi {
-    private static String key = "xxx";
+    private static String key = "fb4e50af7f42eb3a396d9040ebadca22";
+    private static String taiCiKey = "fb4e50af7f42eb3a396d9040ebadca22";
     private static String url = "http://api.tianapi.com/caihongpi/index?key=";
+    private static String taiCiUrl = "http://api.tianapi.com/dialogue/index?key=";
     private static List<String> jinJuList = new ArrayList<>();
-    private static String name = "老婆";
+    private static String name = "宝宝";
+//    private static String name = "傻狗";
 
     public static String getCaiHongPi() {
         //默认彩虹屁
         String str = "阳光落在屋里，爱你藏在心里";
         try {
-            JSONObject jsonObject = JSONObject.parseObject(HttpUtil.getUrl(url+key).replace("XXX", name));
+            JSONObject jsonObject = JSONObject.parseObject(HttpUtil.getUrl(url + key).replace("XXX", name));
             if (jsonObject.getIntValue("code") == 200) {
                 str = jsonObject.getJSONArray("newslist").getJSONObject(0).getString("content");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String getJingDianTaiCi() {
+        //默认彩虹屁
+        String str = "说好是一辈子就是一辈子，差一年一个月一天一个时辰都不行。";
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(HttpUtil.getUrl(taiCiUrl + taiCiKey).replace("XXX", name));
+            if (jsonObject.getIntValue("code") == 200) {
+                str = jsonObject.getJSONArray("newslist").getJSONObject(0).getString("dialogue");
+                str = str + "出处:" + jsonObject.getJSONArray("newslist").getJSONObject(0).getString("source");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,5 +83,7 @@ public class CaiHongPi {
 
     public static void main(String[] args) {
         System.out.println(getJinJu());
+        System.out.println(getCaiHongPi());
+        System.out.println(getJingDianTaiCi());
     }
 }
