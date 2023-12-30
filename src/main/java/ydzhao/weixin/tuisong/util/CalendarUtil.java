@@ -361,7 +361,7 @@ public class CalendarUtil {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateThisYear = formatter.parse(solarDateThisYear);
         Date dateNextYear = formatter.parse(solarDateNextYear);
-        Date now = new Date(1704124800000L);
+        Date now = new Date();
 
         // 将日期的时间部分设置为0
         Calendar cal = Calendar.getInstance();

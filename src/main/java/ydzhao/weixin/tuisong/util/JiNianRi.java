@@ -54,8 +54,8 @@ public class JiNianRi {
             LocalDate today = LocalDate.now();
             ZonedDateTime zonedDateTime = today.atStartOfDay(ZoneId.systemDefault());
             long timestamp = zonedDateTime.toInstant().toEpochMilli();
-//            long time = simpleDateFormat.parse(date).getTime()-timestamp  ;
-            long time = simpleDateFormat.parse(date).getTime()-1704124800000L  ;
+            long time = simpleDateFormat.parse(date).getTime()-timestamp  ;
+//            long time = simpleDateFormat.parse(date).getTime()-1704124800000L  ;
             day = (int) (time / 86400000L);
         } catch (ParseException e) {
             e.printStackTrace();
