@@ -111,15 +111,15 @@ public static void push(String openId) throws Exception {
         templateMessage.addData(new WxMpTemplateData("jinju",CaiHongPi.getJinJu()+"","#C71585"));
         //templateMessage.addData(new WxMpTemplateData("jiehun",JiNianRi.getJieHun()+""));
 //        templateMessage.addData(new WxMpTemplateData("linzhen",JiNianRi.getLinZhen()+"","#FF6347"));
-        String beizhu = "猪猪机器人为最爱的宝宝带来今天的最新消息";
+        String beizhu = "猪猪机器人为最爱的宝宝带来今天的最新消息🌹🌹";
         if (!templateId.equals(bxlTemplate)){
             beizhu="查收宝宝最新城市情况";
         }
         if(JiNianRi.getLianAi() % 365 == 0){
-            beizhu = "今天是恋爱纪念日！";
+            beizhu = "今天是恋爱纪念日！❤❤";
         }
         if (JiNianRi.getNongLiShengRi()==0){
-            beizhu = "宝宝，祝你生日快乐~";
+            beizhu = "宝宝，祝你生日快乐~🎂🎂";
         }
         templateMessage.addData(new WxMpTemplateData("beizhu",beizhu,"#FF0000"));
 
