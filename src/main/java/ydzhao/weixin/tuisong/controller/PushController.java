@@ -38,7 +38,7 @@ public class PushController {
      * 微信测试账号推送
      * */
     @GetMapping("/push/{id}")
-    public void pushId(@PathVariable("id") String id) {
+    public void pushId(@PathVariable("id") String id) throws Exception {
         Pusher.push(id);
     }
 }
