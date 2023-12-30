@@ -1,6 +1,9 @@
-package ydzhao.weixin.tuisong.util;
+package com.tencent.wxcloudrun.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,23 +14,28 @@ import java.util.Date;
  */
 public class CalendarUtil {
     //    private static final Logger logger = LoggerFactory.getLogger(CalendarUtil.class);
-    // 计算阴历日期参照1900年到2049年
+    // 计算阴历日期参照1900年到2099年
     private final static int[] LUNAR_INFO = {
             0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
             0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
             0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970,
-            0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
+            0x06566, 0x0d4a0, 0x0ea50, 0x16a95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
             0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557,
-            0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5d0, 0x14573, 0x052d0, 0x0a9a8, 0x0e950, 0x06aa0,
+            0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5b0, 0x14573, 0x052b0, 0x0a9a8, 0x0e950, 0x06aa0,
             0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0,
-            0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b5a0, 0x195a6,
+            0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b6a0, 0x195a6,
             0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570,
-            0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0,
+            0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x05ac0, 0x0ab60, 0x096d5, 0x092e0,
             0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5,
             0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930,
             0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530,
-            0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
-            0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0
+            0x05aa0, 0x076a3, 0x096d0, 0x04afb, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
+            0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0,
+            0x14b63, 0x09370, 0x049f8, 0x04970, 0x064b0, 0x168a6, 0x0ea50, 0x06b20, 0x1a6c4, 0x0aae0,
+            0x092e0, 0x0d2e3, 0x0c960, 0x0d557, 0x0d4a0, 0x0da50, 0x05d55, 0x056a0, 0x0a6d0, 0x055d4,
+            0x052d0, 0x0a9b8, 0x0a950, 0x0b4a0, 0x0b6a6, 0x0ad50, 0x055a0, 0x0aba4, 0x0a5b0, 0x052b0,
+            0x0b273, 0x06930, 0x07337, 0x06aa0, 0x0ad50, 0x14b55, 0x04b60, 0x0a570, 0x054e4, 0x0d160,
+            0x0e968, 0x0d520, 0x0daa0, 0x16aa6, 0x056d0, 0x04ae0, 0x0a9d4, 0x0a2d0, 0x0d150, 0x0f252
     };
 
     // 允许输入的最小年份
@@ -75,12 +83,11 @@ public class CalendarUtil {
      *
      * @param lunarYeay 阴历年
      * @param month     阴历月
-     * @param leapMonthFlag
      * @return (int)该月天数
      * @throws Exception
      * @author liu 2015-1-5
      */
-    private static int getMonthDays(int lunarYeay, int month, boolean leapMonthFlag) throws Exception {
+    private static int getMonthDays(int lunarYeay, int month) throws Exception {
         if ((month > 31) || (month < 0)) {
             throw (new Exception("月份有错！"));
         }
@@ -204,10 +211,12 @@ public class CalendarUtil {
      */
     public static String lunarToSolar(String lunarDate, boolean leapMonthFlag) throws Exception {
         lunarDate = lunarDate.replace("-", "");
-        int lunarYear = Calendar.getInstance().get(Calendar.YEAR);
+//        int lunarYear = Integer.parseInt(lunarDate.substring(0, 4));
+        //计算农历月份在今年是那个阳历日期
+
+        int lunarYear =Integer.parseInt(lunarDate.substring(0, 4));
         int lunarMonth = Integer.parseInt(lunarDate.substring(4, 6));
         int lunarDay = Integer.parseInt(lunarDate.substring(6, 8));
-        leapMonthFlag = false;
 
         checkLunarDate(lunarYear, lunarMonth, lunarDay, leapMonthFlag);
 
@@ -217,38 +226,41 @@ public class CalendarUtil {
             int yearDaysCount = getYearDays(i); // 求阴历某年天数
             offset += yearDaysCount;
         }
-
+        //计算该年闰几月
         int leapMonth = getLeapMonth(lunarYear);
 
         if (leapMonthFlag & leapMonth != lunarMonth) {
             throw (new Exception("您输入的闰月标志有误！"));
         }
 
+        //当年没有闰月或月份早于闰月或和闰月同名的月份
         if (leapMonth == 0 || (lunarMonth < leapMonth) || (lunarMonth == leapMonth && !leapMonthFlag)) {
             for (int i = 1; i < lunarMonth; i++) {
-                int tempMonthDaysCount = getMonthDays(lunarYear, i, leapMonthFlag);
+                int tempMonthDaysCount = getMonthDays(lunarYear, i);
                 offset += tempMonthDaysCount;
             }
 
-            if (lunarDay > getMonthDays(lunarYear, lunarMonth, leapMonthFlag)) {
+            // 检查日期是否大于最大天
+            if (lunarDay > getMonthDays(lunarYear, lunarMonth)) {
                 throw (new Exception("不合法的农历日期！"));
             }
-            offset += lunarDay;
-        } else {
+            offset += lunarDay; // 加上当月的天数
+        } else {//当年有闰月，且月份晚于或等于闰月
             for (int i = 1; i < lunarMonth; i++) {
-                int tempMonthDaysCount = getMonthDays(lunarYear, i, leapMonthFlag);
+                int tempMonthDaysCount = getMonthDays(lunarYear, i);
                 offset += tempMonthDaysCount;
             }
             if (lunarMonth > leapMonth) {
                 int temp = getLeapMonthDays(lunarYear); // 计算闰月天数
                 offset += temp; // 加上闰月天数
 
-                if (lunarDay > getMonthDays(lunarYear, lunarMonth, leapMonthFlag)) {
+                if (lunarDay > getMonthDays(lunarYear, lunarMonth)) {
                     throw (new Exception("不合法的农历日期！"));
                 }
                 offset += lunarDay;
             } else {    // 如果需要计算的是闰月，则应首先加上与闰月对应的普通月的天数
-                int temp = getMonthDays(lunarYear, lunarMonth, leapMonthFlag); // 计算非闰月天数
+                // 计算月为闰月
+                int temp = getMonthDays(lunarYear, lunarMonth); // 计算非闰月天数
                 offset += temp;
 
                 if (lunarDay > getLeapMonthDays(lunarYear)) {
@@ -259,74 +271,14 @@ public class CalendarUtil {
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = formatter.parse(START_DATE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDate);
-        calendar.add(Calendar.DATE, offset);
-        Date gregorianDate = calendar.getTime();
+        Date myDate = null;
+        myDate = formatter.parse(START_DATE);
+        Calendar c = Calendar.getInstance();
+        c.setTime(myDate);
+        c.add(Calendar.DATE, offset);
+        myDate = c.getTime();
 
-        if (gregorianDate.before(new Date())) { // 如果计算出来的日期已经过去，计算下一次农历日期对应的公历日期
-            int nextLunarYear = lunarYear;
-            int nextLunarMonth = lunarMonth;
-            int nextLunarDay = lunarDay;
-            leapMonthFlag = false;
-
-            while (gregorianDate.before(new Date())) {
-                if (nextLunarMonth == 12 && nextLunarDay > 29) { // 如果是腊月，且日期超过了29号，说明已经到了下一年的正月初一
-                    nextLunarYear++;
-                    nextLunarMonth = 1;
-                    nextLunarDay = 1;
-                    leapMonthFlag = false;
-                } else {
-                    int monthDays = getMonthDays(nextLunarYear, nextLunarMonth, leapMonthFlag);
-                    if (nextLunarDay >= monthDays) { // 如果该月的日期超过了该月的天数，进入下一个月
-                        nextLunarMonth++;
-                        nextLunarDay = 1;
-                        if (nextLunarMonth == leapMonth + 1 && leapMonthFlag) { // 如果是闰月的下一个月，取消闰月标志
-                            leapMonthFlag = false;
-                        }
-                        if (nextLunarMonth > 12) { // 如果超过了12月，进入下一年的正月初一
-                            nextLunarYear++;
-                            nextLunarMonth = 1;
-                            nextLunarDay = 1;
-                            leapMonthFlag = false;
-                        }
-                    } else { // 如果该月的日期没有超过该月的天数，继续累加日期
-                        nextLunarDay++;
-                    }
-                }
-                int nextOffset = 0;
-                for (int i = MIN_YEAR; i < nextLunarYear; i++) {
-                    int yearDaysCount = getYearDays(i); // 求阴历某年天数
-                    nextOffset += yearDaysCount;
-                }
-                if (getLeapMonth(nextLunarYear) > 0) { // 如果有闰月，计算闰月对应的月份
-                    leapMonth = getLeapMonth(nextLunarYear);
-                    if (leapMonthFlag) { // 如果已经过了闰月，需要将计算的月份减去1
-                        if (nextLunarMonth > leapMonth) {
-                            nextLunarMonth--;
-                        }
-                    } else { // 如果还没过闰月，需要判断是否要跳过闰月
-                        if (nextLunarMonth > leapMonth) {
-                            nextOffset += getLeapMonthDays(nextLunarYear); // 加上闰月的天数
-                        }
-                        if (nextLunarMonth == leapMonth) {
-                            leapMonthFlag = true; // 标记为闰月
-                        }
-                    }
-                }
-                for (int i = 1; i < nextLunarMonth; i++) { // 加上该年之前的月份的天数
-                    int monthDays = getMonthDays(nextLunarYear, i, leapMonthFlag);
-                    nextOffset += monthDays;
-                }
-                nextOffset += nextLunarDay - 1; // 加上该月之前的日期的天数
-                calendar.setTime(startDate);
-                calendar.add(Calendar.DATE, nextOffset);
-                gregorianDate = calendar.getTime();
-            }
-        }
-
-        return formatter.format(gregorianDate);
+        return formatter.format(myDate);
     }
 
     /**
@@ -382,7 +334,7 @@ public class CalendarUtil {
                 leapMonthFlag = true;
                 i--;
             } else {
-                temp = getMonthDays(lunarYear, i, leapMonthFlag);
+                temp = getMonthDays(lunarYear, i);
             }
             offset -= temp;
             if (offset <= 0) {
@@ -397,11 +349,42 @@ public class CalendarUtil {
 
         return "阴历：" + lunarYear + "年" + (leapMonthFlag & (lunarMonth == leapMonth) ? "闰" : "") + lunarMonth + "月" + lunarDay + "日";
     }
+    public static String getNextLunarDate(String lunarMonthDay, boolean leapMonthFlag) throws Exception {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        // 尝试在当前年份找到阴历日期
+        String lunarDateThisYear = currentYear + lunarMonthDay;
+        String solarDateThisYear = CalendarUtil.lunarToSolar(lunarDateThisYear, leapMonthFlag);
+        // 尝试在下一年找到阴历日期
+        String lunarDateNextYear = (currentYear + 1) + lunarMonthDay;
+        String solarDateNextYear = CalendarUtil.lunarToSolar(lunarDateNextYear, leapMonthFlag);
+        // 比较两个阳历日期哪个更接近当前日期
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateThisYear = formatter.parse(solarDateThisYear);
+        Date dateNextYear = formatter.parse(solarDateNextYear);
+        Date now = new Date();
+
+        // 将日期的时间部分设置为0
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        now = cal.getTime();
+
+        // 如果今年的阳历日期已经过去，返回明年的阳历日期；否则返回今年的阳历日期
+        if (dateThisYear.before(now)) {
+            return solarDateNextYear;
+        } else {
+            return solarDateThisYear;
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         System.out.println("******阴历转阳历******");
-        System.out.println(CalendarUtil.lunarToSolar("1999-03-04", false));
-        System.out.println(CalendarUtil.lunarToSolar("19841021", false));
+//        System.out.println(CalendarUtil.lunarToSolar("1998-11-21", false));
+        System.out.println(CalendarUtil.getNextLunarDate("11-21", false));
+//        System.out.println(CalendarUtil.lunarToSolar("19841021", false));
         /*System.out.println("******阳历转阴历******");
         System.out.println(CalendarUtil.solarToLunar("20181214"));
         System.out.println(CalendarUtil.solarToLunar("19000924"));

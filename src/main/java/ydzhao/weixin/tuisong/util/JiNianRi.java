@@ -1,7 +1,10 @@
-package ydzhao.weixin.tuisong.util;
+package com.tencent.wxcloudrun.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  * @ClassName JiNianRi
@@ -13,7 +16,7 @@ public class JiNianRi {
     /**
      * 恋爱
      */
-    static String lianAi = "2022-05-21";
+    static String lianAi = "2022-05-20";
 
     /**
      * 生日
@@ -46,7 +49,10 @@ public class JiNianRi {
     public static int after(String date) {
         int day = 0;
         try {
-            long time = simpleDateFormat.parse(date).getTime()-System.currentTimeMillis()  ;
+            LocalDate today = LocalDate.now();
+            ZonedDateTime zonedDateTime = today.atStartOfDay(ZoneId.systemDefault());
+            long timestamp = zonedDateTime.toInstant().toEpochMilli();
+            long time = simpleDateFormat.parse(date).getTime()-timestamp  ;
             day = (int) (time / 86400000L);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -71,15 +77,13 @@ public class JiNianRi {
     }
 
     public static int getNongLiShengRi() throws Exception {
-//        return after(CalendarUtil.lunarToSolar("1998-11-08", false));
-        return after(CalendarUtil.lunarToSolar("1998-11-21", false));
+        return after(CalendarUtil.getNextLunarDate("11-21", false));
     }
 
     public static void main(String[] args) throws Exception {
 
-//        System.out.println(after(CalendarUtil.lunarToSolar("1998-11-21", false)));
-//        System.out.println(getNongLiShengRi());
-        System.out.println(CalendarUtil.lunarToSolar("1998-11-21", false));
+        System.out.println(getNongLiShengRi());
+        System.out.println(getLianAi());
 
     }
 
