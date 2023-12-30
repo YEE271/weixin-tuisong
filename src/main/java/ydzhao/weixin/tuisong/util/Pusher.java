@@ -23,7 +23,7 @@ public class Pusher {
     private static String appId = "wx8e3f00ec14ef8f2e";
     private static String secret = "abbedd7f9228e178c4cd9959737cf0f5";
 
-public static void push(String openId){
+public static void push(String openId) throws Exception {
     //1，配置
     WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
     wxStorage.setAppId(appId);
@@ -62,6 +62,9 @@ public static void push(String openId){
 //        String beizhu = "嘿嘿嘿，恁爹来咯";
     if(JiNianRi.getLianAi() % 365 == 0){
         beizhu = "今天是恋爱纪念日！";
+    }
+    if(JiNianRi.getNongLiShengRi() == 0){
+        beizhu = "今天是亲亲宝宝的生日！";
     }
     templateMessage.addData(new WxMpTemplateData("beizhu",beizhu,"#FF0000"));
 
