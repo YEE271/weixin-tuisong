@@ -379,8 +379,12 @@ public class CalendarUtil {
             return solarDateThisYear;
         }
     }
-
+    public static boolean isTodaySpecifiedDate(int month, int day) {
+        LocalDate today = LocalDate.now();
+        return today.getMonthValue() == month && today.getDayOfMonth() == day;
+    }
     public static void main(String[] args) throws Exception {
+        System.out.println(isTodaySpecifiedDate(12,31));
         System.out.println("******阴历转阳历******");
 //        System.out.println(CalendarUtil.lunarToSolar("1998-11-21", false));
         System.out.println(CalendarUtil.getNextLunarDate("11-21", false));

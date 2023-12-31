@@ -23,7 +23,7 @@ public class JiNianRi {
     /**
      * 生日
      */
-    static String shengRi = "2022-12-14";
+    static String shengRi = "1998-11-21";
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

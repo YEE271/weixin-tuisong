@@ -7,6 +7,8 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
+import java.time.LocalDate;
+
 import static ydzhao.weixin.tuisong.common.ValCommons.bxlTemplate;
 import static ydzhao.weixin.tuisong.common.ValCommons.sltTemplate;
 
@@ -95,7 +97,11 @@ public static void push(String openId) throws Exception {
         //                templateMessage.addData(new WxMpTemplateData(name2, value2, color2));
         //填写变量信息，比如天气之类的
         JSONObject todayWeather = Tianqi.getNanjiTianqi();
-        templateMessage.addData(new WxMpTemplateData("riqi",todayWeather.getString("date") + "  "+ todayWeather.getString("week"),"#00BFFF"));
+        String riqi = todayWeather.getString("date") + "  "+ todayWeather.getString("week");
+        if (CalendarUtil.isTodaySpecifiedDate(5,21)){
+            riqi = riqi+","+(LocalDate.now().getYear()-2021)+"年前的今天,我们在一起啦😘~~";
+        }
+        templateMessage.addData(new WxMpTemplateData("riqi",riqi,"#00BFFF"));
         templateMessage.addData(new WxMpTemplateData("tianqi",todayWeather.getString("text_day"),"#00FFFF"));
         templateMessage.addData(new WxMpTemplateData("low",todayWeather.getString("low") + "","#173177"));
         templateMessage.addData(new WxMpTemplateData("high",todayWeather.getString("high")+ "","#FF6347" ));
@@ -116,7 +122,8 @@ public static void push(String openId) throws Exception {
             beizhu="查收宝宝最新城市情况";
         }
         if(JiNianRi.getLianAi() % 365 == 0){
-            beizhu = "今天是恋爱纪念日！❤❤";
+            beizhu = "今天是恋爱纪念日！ 我们已经在一起"+JiNianRi.getLianAi() / 365+"周年啦。";
+
         }
         if (JiNianRi.getNongLiShengRi()==0){
             beizhu = "宝宝，祝你生日快乐~🎂🎂";
