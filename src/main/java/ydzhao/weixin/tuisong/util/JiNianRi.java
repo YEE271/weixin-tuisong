@@ -18,7 +18,7 @@ public class JiNianRi {
     /**
      * 恋爱
      */
-    static String lianAi = "2022-05-20";
+    static String lianAi = "2022-05-21";
 
     /**
      * 生日
@@ -35,7 +35,11 @@ public class JiNianRi {
     public static int before(String date) {
         int day = 0;
         try {
-            long time =System.currentTimeMillis() - simpleDateFormat.parse(date).getTime() ;
+
+            LocalDate today = LocalDate.now();
+            ZonedDateTime zonedDateTime = today.atStartOfDay(ZoneId.systemDefault());
+            long timestamp = zonedDateTime.toInstant().toEpochMilli();
+            long time =timestamp - simpleDateFormat.parse(date).getTime() ;
             day = (int) (time / 86400000L);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -86,7 +90,7 @@ public class JiNianRi {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(getNongLiShengRi());
+//        System.out.println(getNongLiShengRi());
         System.out.println(getLianAi());
 
     }
