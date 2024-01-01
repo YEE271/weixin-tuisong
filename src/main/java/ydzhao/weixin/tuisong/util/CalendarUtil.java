@@ -357,10 +357,16 @@ public class CalendarUtil {
         // 尝试在下一年找到阴历日期
         String lunarDateNextYear = (currentYear + 1) + lunarMonthDay;
         String solarDateNextYear = CalendarUtil.lunarToSolar(lunarDateNextYear, leapMonthFlag);
-        // 比较两个阳历日期哪个更接近当前日期
+
+        // 尝试在前一年找到阴历日期
+        String lunarDateLastYear = (currentYear - 1) + lunarMonthDay;
+        String solarDateLastYear = CalendarUtil.lunarToSolar(lunarDateLastYear, leapMonthFlag);
+        System.out.println(solarDateLastYear);
+        // 比较三个阳历日期哪个更接近当前日期
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateThisYear = formatter.parse(solarDateThisYear);
         Date dateNextYear = formatter.parse(solarDateNextYear);
+        Date dateLastYear = formatter.parse(solarDateLastYear);
         Date now = new Date();
 
         // 将日期的时间部分设置为0
@@ -372,8 +378,11 @@ public class CalendarUtil {
         cal.set(Calendar.MILLISECOND, 0);
         now = cal.getTime();
 
-        // 如果今年的阳历日期已经过去，返回明年的阳历日期；否则返回今年的阳历日期
-        if (dateThisYear.before(now)) {
+        // 如果去年的阳历日期已经过去，比较今年的阳历日期，都过去则返回明年的阳历日期
+        if (dateLastYear.after(now)){
+            return solarDateLastYear;
+        }
+        else if (dateThisYear.before(now)) {
             return solarDateNextYear;
         } else {
             return solarDateThisYear;
@@ -384,10 +393,9 @@ public class CalendarUtil {
         return today.getMonthValue() == month && today.getDayOfMonth() == day;
     }
     public static void main(String[] args) throws Exception {
-        System.out.println(isTodaySpecifiedDate(12,31));
         System.out.println("******阴历转阳历******");
 //        System.out.println(CalendarUtil.lunarToSolar("1998-11-21", false));
-        System.out.println(CalendarUtil.getNextLunarDate("11-21", false));
+        System.out.println(CalendarUtil.getNextLunarDate("-11-21", false));
 //        System.out.println(CalendarUtil.lunarToSolar("19841021", false));
         /*System.out.println("******阳历转阴历******");
         System.out.println(CalendarUtil.solarToLunar("20181214"));
