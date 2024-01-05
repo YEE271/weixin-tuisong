@@ -361,7 +361,7 @@ public class CalendarUtil {
         // 尝试在前一年找到阴历日期
         String lunarDateLastYear = (currentYear - 1) + lunarMonthDay;
         String solarDateLastYear = CalendarUtil.lunarToSolar(lunarDateLastYear, leapMonthFlag);
-        System.out.println(solarDateLastYear);
+//        System.out.println(solarDateLastYear);
         // 比较三个阳历日期哪个更接近当前日期
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dateThisYear = formatter.parse(solarDateThisYear);
@@ -379,10 +379,10 @@ public class CalendarUtil {
         now = cal.getTime();
 
         // 如果去年的阳历日期已经过去，比较今年的阳历日期，都过去则返回明年的阳历日期
-        if (dateLastYear.after(now)){
+        if (dateLastYear.after(now) || dateLastYear.compareTo(now)==0){
             return solarDateLastYear;
         }
-        else if (dateThisYear.before(now)) {
+        else if (dateThisYear.before(now) || dateThisYear.compareTo(now)==0) {
             return solarDateNextYear;
         } else {
             return solarDateThisYear;
