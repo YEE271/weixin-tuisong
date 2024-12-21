@@ -352,14 +352,14 @@ public class CalendarUtil {
     public static String getNextLunarDate(String lunarMonthDay, boolean leapMonthFlag) throws Exception {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         // 尝试在当前年份找到阴历日期
-        String lunarDateThisYear = currentYear + lunarMonthDay;
+        String lunarDateThisYear = currentYear+"-" + lunarMonthDay;
         String solarDateThisYear = CalendarUtil.lunarToSolar(lunarDateThisYear, leapMonthFlag);
         // 尝试在下一年找到阴历日期
-        String lunarDateNextYear = (currentYear + 1) + lunarMonthDay;
+        String lunarDateNextYear = (currentYear + 1) +"-"+ lunarMonthDay;
         String solarDateNextYear = CalendarUtil.lunarToSolar(lunarDateNextYear, leapMonthFlag);
 
         // 尝试在前一年找到阴历日期
-        String lunarDateLastYear = (currentYear - 1) + lunarMonthDay;
+        String lunarDateLastYear = (currentYear - 1) +"-"+ lunarMonthDay;
         String solarDateLastYear = CalendarUtil.lunarToSolar(lunarDateLastYear, leapMonthFlag);
 //        System.out.println(solarDateLastYear);
         // 比较三个阳历日期哪个更接近当前日期
@@ -377,15 +377,16 @@ public class CalendarUtil {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         now = cal.getTime();
-
+        System.out.println(dateThisYear.before(now));
+        System.out.println(dateThisYear.compareTo(now));
         // 如果去年的阳历日期已经过去，比较今年的阳历日期，都过去则返回明年的阳历日期
-        if (dateLastYear.after(now) || dateLastYear.compareTo(now)==0){
+        if ( dateLastYear.compareTo(now)==0){
             return solarDateLastYear;
         }
-        else if (dateThisYear.before(now) || dateThisYear.compareTo(now)==0) {
-            return solarDateNextYear;
-        } else {
+        else if ( dateThisYear.compareTo(now)==0) {
             return solarDateThisYear;
+        } else {
+            return solarDateNextYear;
         }
     }
     public static boolean isTodaySpecifiedDate(int month, int day) {
