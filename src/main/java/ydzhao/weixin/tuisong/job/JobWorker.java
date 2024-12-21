@@ -22,4 +22,5 @@ public class JobWorker {
         Pusher.push(bxl,bxlTemplate);
         Pusher.push(slt,sltTemplate);
     }
+
 }

@@ -380,10 +380,10 @@ public class CalendarUtil {
         System.out.println(dateThisYear.before(now));
         System.out.println(dateThisYear.compareTo(now));
         // 如果去年的阳历日期已经过去，比较今年的阳历日期，都过去则返回明年的阳历日期
-        if ( dateLastYear.compareTo(now)==0){
-            return solarDateLastYear;
-        }
-        else if ( dateThisYear.compareTo(now)==0) {
+        if (dateLastYear.after(now) || dateLastYear.compareTo(now)==0){
+                return solarDateLastYear;
+            }
+        else if (dateThisYear.after(now) || dateThisYear.compareTo(now)==0) {
             return solarDateThisYear;
         } else {
             return solarDateNextYear;
