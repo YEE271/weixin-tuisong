@@ -90,7 +90,7 @@ public class JiNianRi {
 
     public static void main(String[] args) throws Exception {
         System.out.println(CalendarUtil
-                .getNextLunarDate("11-21", false));
+                .getNextLunarDate("11-22", false));
         System.out.println(getNongLiShengRi());
         System.out.println(getLianAi());
 
